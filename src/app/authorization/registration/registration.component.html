@@ -1,0 +1,108 @@
+
+<div class="window-wrapper">
+    <div class="label-wrapper">Registration</div>
+    
+    <form class="form-wrapper" [formGroup]="registrationForm" >
+
+        <div class="input-wrapper">
+            <label>Email</label>
+            <input type="text" formControlName="email">
+            
+            <span *ngIf="registrationForm.get('email')?.errors?.['required'] &&
+                        registrationForm.get('email')?.touched">
+                        Field required
+            </span>
+
+            <span *ngIf="registrationForm.get('email')?.errors?.['email'] &&
+                        registrationForm.get('email')?.touched">
+                        Incorrect email
+            </span>
+
+        </div>
+
+        <div class="input-wrapper">
+            <label>Username</label>
+            <input type="text" formControlName="username">
+
+            <span *ngIf="registrationForm.get('username')?.errors?.['required'] &&
+                        registrationForm.get('username')?.touched">
+                        Field required
+            </span>
+
+            <span *ngIf="registrationForm.get('username')?.errors?.['minlength'] &&
+                        registrationForm.get('username')?.touched">
+                        Min length - 6
+            </span>
+
+            <span *ngIf="registrationForm.get('username')?.errors?.['maxlength'] &&
+                        registrationForm.get('username')?.touched">
+                        Max length - 64
+            </span>
+
+        </div>
+        <div class="input-wrapper">
+            <label>Password</label>
+            <input type="password" formControlName="password">
+
+            <span *ngIf="registrationForm.get('password')?.errors?.['required'] &&
+                        registrationForm.get('password')?.touched">
+                        Field required
+            </span>
+
+            <span *ngIf="registrationForm.get('password')?.errors?.['minlength'] &&
+                        registrationForm.get('password')?.touched">
+                        Min length - 8
+            </span>
+
+            <span *ngIf="registrationForm.get('password')?.errors?.['maxlength'] &&
+                        registrationForm.get('password')?.touched">
+                        Max length - 64
+            </span>
+
+            <span class="password-error-message" *ngIf="
+                        !registrationForm.get('password')?.errors?.['required'] &&
+                        !registrationForm.get('password')?.errors?.['minlength'] &&
+                        !registrationForm.get('password')?.errors?.['maxlength'] &&
+                        registrationForm.get('password')?.errors?.['passwordError'] &&
+                        registrationForm.get('password')?.touched">
+                        At least 1 number and 1 capital letter
+            </span>
+        </div>
+            
+        <div class="input-wrapper">
+            <label>Password again</label>
+            <input type="password" formControlName="passwordConf">
+
+            <span class="passwordConf-error-message" *ngIf="
+                differentPasswords &&
+                registrationForm.get('passwordConf')?.touched">
+                Passwords do not match            
+            </span>
+
+            <span *ngIf="registrationForm.get('passwordConf')?.errors?.['required'] &&
+                        registrationForm.get('passwordConf')?.touched">
+                        Field required
+            </span>
+
+        </div>
+        <div class="input-wrapper">
+            <label>PhoneNumber</label>
+            <input type="number" formControlName="phoneNumber">
+
+            <span *ngIf="registrationForm.get('phoneNumber')?.errors?.['minlength'] &&
+                        registrationForm.get('phoneNumber')?.touched">
+                        Min length - 9
+            </span>
+
+            <span *ngIf="registrationForm.get('phoneNumber')?.errors?.['maxlength'] &&
+                        registrationForm.get('phoneNumber')?.touched">
+                        Max length - 15
+            </span>
+
+        </div>  
+    </form>
+    
+    <div class="button-wrapper">
+        <button  (click)="registrate()">Go</button>
+    </div>      
+</div>

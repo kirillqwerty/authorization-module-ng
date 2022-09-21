@@ -1,0 +1,28 @@
+
+<div class="window-wrapper">
+    <div class="label-wrapper">
+        Login   
+    </div>
+    
+    <form class="form-wrapper" [formGroup]="loginForm" >
+        <div class="input-wrapper">
+            <label>Username</label>
+            <input type="text" formControlName="username">
+        </div>
+            
+        <div class="input-wrapper">
+            <label>Password</label>
+            <input type="text" formControlName="password">
+        </div>
+            
+    </form>
+    
+    <div class="button-wrapper">
+        <button (click)="signIn()">Go</button>
+        <a class="reg-btn" (click)="goToRegistration()">
+            I dont have an account
+        </a>
+    </div>      
+</div>
+
+

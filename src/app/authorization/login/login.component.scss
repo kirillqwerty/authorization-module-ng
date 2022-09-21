@@ -1,0 +1,63 @@
+.box{
+    background-color: grey;
+    width: 100vw;
+    height: 100vh;
+}
+
+.window-wrapper{
+    height: 60vh;
+}
+.label-wrapper{
+    height: 20%;
+    border-bottom: none;
+}
+
+.input-wrapper{
+    height: 50%;
+    display: flex;
+    align-items: center;
+    // justify-content: space-around;
+    justify-content: center;
+    flex-direction: column;
+}
+
+label{
+    font-size: 2.5vh;
+}
+
+.button-wrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 30%;
+    background: grey;
+}
+
+.reg-btn{
+    font-size: 2.5vh;
+    color: blue;
+    text-decoration: underline; 
+
+}
+
+.reg-btn:hover{
+    text-decoration: none; 
+    transition-duration: 0.2s;
+    cursor: pointer;
+    color: rgb(65, 190, 65);
+}
+
+.reg-btn:active{
+    transition-duration: none;
+    opacity: 0.6;
+}
+
+button{
+    color: black;
+    height: 8vh;
+}
+
+button:active{
+    color: rgb(65, 190, 65);
+}
+
