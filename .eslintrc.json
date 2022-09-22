@@ -91,6 +91,12 @@
         ],
         "consistent-return": [
           "error"
+        ],
+        "no-unused-expressions":[
+          "error"
+        ],
+        "no-else-return":[
+          "error"
         ]
       }
     },

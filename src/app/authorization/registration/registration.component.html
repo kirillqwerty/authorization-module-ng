@@ -58,7 +58,7 @@
                         Max length - 64
             </span>
 
-            <span class="password-error-message" *ngIf="
+            <span *ngIf="
                         !registrationForm.get('password')?.errors?.['required'] &&
                         !registrationForm.get('password')?.errors?.['minlength'] &&
                         !registrationForm.get('password')?.errors?.['maxlength'] &&
@@ -88,9 +88,11 @@
         <div class="input-wrapper">
             <label>Phone Number</label>
 
-            <label class="mark" ></label>
+            <div class="input-phonenumber-wrapper">
+                <div class="plus-sign">+</div>
+                <input type="text" class="phonenumber" formControlName="phoneNumber">
+            </div>
 
-            <input type="text" formControlName="phoneNumber">
 
             <span *ngIf="registrationForm.get('phoneNumber')?.errors?.['minlength'] &&
                         registrationForm.get('phoneNumber')?.touched">

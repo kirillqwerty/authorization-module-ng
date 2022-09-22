@@ -1,6 +1,6 @@
 .window-wrapper{
     margin-top: 2%;
-    height: 90vh;
+    height: 872px;
 }
 
 .label-wrapper{
@@ -10,8 +10,9 @@
 
 .form-wrapper{
     height: 70%;
-    flex-direction: column;
-    justify-content: space-evenly;
+    // flex-direction: column;
+    // justify-content: left;
+    // justify-content: space-evenly;
 }
 
 .button-wrapper{
@@ -20,25 +21,46 @@
 }
 
 label{
-    font-size: 2.5vh;
+    margin-left: 10px;
+    align-self:baseline;
+    font-size: 24px;
 }
 
 input{
-    height:50%
+    outline: none;
+    height:40%
+}
+
+.input-phonenumber-wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.plus-sign{
+    height: 60%;
+    border: 10px solid black;
+    border-right: none;
+    font-size: 50px;
+}
+
+.phonenumber{
+    width: 85%;
+    height: 58%;
+    border-left: none;
+}
+
+.input-wrapper{
+    width: 100%;
+    justify-content:left;
+
 }
 
 span{
-    font-size: 1.7vh;
-    position: absolute;
+    font-size: 16px;
+    // position: absolute;
     color: red;
-    margin-left: -30vh;
-    margin-top: 6.5vh;
-}
-
-.password-error-message{
-    margin-left: -40vh;
-}
-
-.passwordConf-error-message{
-    margin-left: -35vh;
+    margin-left: 10px;
+    align-self:baseline;
 }

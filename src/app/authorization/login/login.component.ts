@@ -53,7 +53,7 @@ export class LoginComponent implements OnDestroy {
                 },
                 error: () => {
                     this.loginForm.setValue({username: "", password: ""});       
-                    this.loginForm.markAsUntouched;
+                    // this.loginForm.markAsUntouched();
                     this.loader = false;         
                     alert("try again");
                     this.cdr.detectChanges();

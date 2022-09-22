@@ -5,7 +5,7 @@ export function passwordValidator(control: AbstractControl): { [key: string]: bo
         return null
     }
 
-    else return {"passwordError": true};
+    return {"passwordError": true};
 }
 
 export function phoneValidator(control: AbstractControl): { [key: string]: boolean } | null{
@@ -13,5 +13,5 @@ export function phoneValidator(control: AbstractControl): { [key: string]: boole
         return null
     }
 
-    else return {"phoneError": true};
+    return {"phoneError": true};
 }
