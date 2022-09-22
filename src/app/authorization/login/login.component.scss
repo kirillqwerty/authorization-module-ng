@@ -21,6 +21,13 @@
     flex-direction: column;
 }
 
+span{
+    font-size: 1.7vh;
+    position: absolute;
+    color: red;
+    margin-top: 12vh;
+}
+
 label{
     font-size: 2.5vh;
 }
@@ -60,4 +67,6 @@ button{
 button:active{
     color: rgb(65, 190, 65);
 }
+
+
 

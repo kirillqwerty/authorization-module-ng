@@ -7,12 +7,14 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpService } from "./services/http.service";
 import { AuthService } from './services/auth.service';
+import { AuthorizedPageComponent } from './authorized-page/authorized-page.component';
 
 
 @NgModule({
   declarations: [
     LoginComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    AuthorizedPageComponent
   ],
   imports: [
     AuthorizationRoutingModule,

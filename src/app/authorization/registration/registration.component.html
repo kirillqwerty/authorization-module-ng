@@ -1,8 +1,7 @@
-
-<div class="window-wrapper">
+<div class="window-wrapper" [formGroup]="registrationForm" [ngClass]="{background: loader}">
     <div class="label-wrapper">Registration</div>
     
-    <form class="form-wrapper" [formGroup]="registrationForm" >
+    <form class="form-wrapper" >
 
         <div class="input-wrapper">
             <label>Email</label>
@@ -74,6 +73,7 @@
             <input type="password" formControlName="passwordConf">
 
             <span class="passwordConf-error-message" *ngIf="
+                !registrationForm.get('passwordConf')?.errors?.['required'] &&
                 differentPasswords &&
                 registrationForm.get('passwordConf')?.touched">
                 Passwords do not match            
@@ -86,8 +86,11 @@
 
         </div>
         <div class="input-wrapper">
-            <label>PhoneNumber</label>
-            <input type="number" formControlName="phoneNumber">
+            <label>Phone Number</label>
+
+            <label class="mark" ></label>
+
+            <input type="text" formControlName="phoneNumber">
 
             <span *ngIf="registrationForm.get('phoneNumber')?.errors?.['minlength'] &&
                         registrationForm.get('phoneNumber')?.touched">
@@ -99,10 +102,20 @@
                         Max length - 15
             </span>
 
+            <span *ngIf="!registrationForm.get('phoneNumber')?.errors?.['minlength'] &&
+                        !registrationForm.get('phoneNumber')?.errors?.['maxlength'] &&
+                        registrationForm.get('phoneNumber')?.errors?.['phoneError'] &&
+                        registrationForm.get('phoneNumber')?.touched">
+                        Numbers only and '+'
+            </span>
+
         </div>  
     </form>
     
     <div class="button-wrapper">
-        <button  (click)="registrate()">Go</button>
+        <button  (click)="registrate()" [disabled]="registrationForm.invalid">Go</button>
     </div>      
 </div>
+
+<div *ngIf="loader" class="loader"></div>
+

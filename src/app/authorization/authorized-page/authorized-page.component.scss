@@ -1,0 +1,60 @@
+.box{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+}
+
+
+.main-window-wrapper{
+    border: 2vh solid black;
+    background-color: rgb(175, 175, 175);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 500px;
+    min-width: 1000px;
+    height: 70%;
+    width: 70%;
+}
+
+.gameBoyImage{
+    min-width: 400px;
+    min-height: 600px;
+    height: 90%;
+    width:30%;
+    background: url(images/tetris.gif) no-repeat;
+    background-size: 100%;
+}
+label{
+    min-width: 500px;
+    padding-top: 25%;
+    font-size: 10vh;
+    height: 90%;
+    width:50%;
+}
+
+.red-color{
+    color: red;
+}
+.orange-color{
+    color: orange;
+}
+.yellow-color{
+    color: yellow
+}
+.green-color{
+    color: green;
+}
+
+.light-blue-color{
+    color:lightblue
+}
+.blue-color{
+    color: blue;
+}
+
+.purple-color{
+    color:purple;
+}

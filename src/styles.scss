@@ -18,8 +18,12 @@ body{
     right: 35%;
     text-align: center;
     margin-top: 10%;
+    min-width: 500px;
+    min-height: 600px;
     height: 40vh;
     width: 25vw;
+    // max-height: 100vh;
+    // max-width: 100vw;
     border: 1vh solid black;
     border-top-left-radius: 2px;
     border-top-right-radius: 2px;    
@@ -53,7 +57,7 @@ body{
 
 input{
     padding-left: 1vh;
-    font-size: 3vh  ;
+    font-size: 3vh;
     border: 1vh solid black;
     height: 25%;
     font-family: 'Pixeloid Font';
@@ -71,6 +75,7 @@ input{
     border-bottom-left-radius: 2px;
 }
 button{
+    min-width: 192px;
     font-family: 'Pixeloid Font';
     font-size: 4vh;
     letter-spacing: -1px;
@@ -81,6 +86,7 @@ button{
     border: 0.4vh solid rgba(27, 27, 27, 0.582);
     border-bottom: 0.9vw solid rgba(90, 90, 90, 0.7);
     border-right: 1.5vh solid rgba(51, 51, 51, 0.7);
+    box-shadow: 10px 10px 38px 9px rgba(34, 60, 80, 0.2);
 }
 
 button:hover{
@@ -103,6 +109,59 @@ button:active{
     border-right: 1.2vh solid rgba(51, 51, 51, 0.9);
 }
   
+button:disabled:active{
+    color:red;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+.background{
+    /* backdrop-filter: blur(10px); */
+    pointer-events: none;
+    animation: 0.3s blurScale;
+    filter: blur(5px); 
+
+  }
+  
+  @keyframes blurScale {
+    from {
+        filter: blur(0px);
+    }
+    to {
+        filter: blur(5px);
+    }
+  }
+
+.loader {
+  position: absolute;
+  top: 45vh;
+  left: 47vw;
+  --n:3;    
+  --s:3vh;
+  --g:5px; 
+  color:black;
+  width:calc(var(--n)*(var(--s) + var(--g)) - var(--g));
+  height:3vh;
+  padding:var(--g);
+  margin:5px auto;
+  border:1vh solid;
+  background:
+    repeating-linear-gradient(90deg,
+      currentColor  0 var(--s),
+      #0000 0 calc(var(--s) + var(--g))
+    ) left / calc((var(--n) + 1)*(var(--s) + var(--g))) 100% 
+    no-repeat content-box;
+  animation: load 1.5s steps(calc(var(--n) + 1)) infinite;
+
+}
+@keyframes load {
+  0% {background-size: 0% 100%;}
+}
+
 // img{
 //     width: 100%; /* Ширина изображений */
 //     height: 100%;
