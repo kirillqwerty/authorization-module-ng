@@ -1,16 +1,16 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { Subject, take, takeUntil } from 'rxjs';
-import { HttpService } from '../services/http.service';
-import { DataToRegistrate } from '../types/dataToRegistrate';
-import { passwordValidator, phoneValidator } from '../validators/forms-validator';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from "@angular/core";
+import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { Router } from "@angular/router";
+import { Subject, takeUntil } from "rxjs";
+import { HttpService } from "../services/http.service";
+import { DataToRegistrate } from "../types/dataToRegistrate";
+import { passwordValidator, phoneValidator } from "../validators/forms-validator";
 
 
 @Component({
-  selector: 'app-registration',
-  templateUrl: './registration.component.html',
-  styleUrls: ['./registration.component.scss'],
+  selector: "app-registration",
+  templateUrl: "./registration.component.html",
+  styleUrls: ["./registration.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
@@ -21,15 +21,15 @@ export class RegistrationComponent implements OnInit, OnDestroy {
         username: new FormControl(<string|null> null, [Validators.required, Validators.minLength(6), Validators.maxLength(64)]),
         password: new FormControl(<string|null> null, [Validators.required, Validators.minLength(8), Validators.maxLength(64), passwordValidator]),
         passwordConf: new FormControl(<string|null> null, [Validators.required]),
-        phoneNumber: new FormControl(<string|null>  "+", [Validators.minLength(9), Validators.maxLength(15), phoneValidator])
+        phoneNumber: new FormControl(<string|null> "+", [Validators.minLength(9), Validators.maxLength(15), phoneValidator])
     })
-
-    private readonly unsubscribe$: Subject<void> = new Subject();
 
     public differentPasswords = false;
 
     public loader = false;
 
+    private readonly unsubscribe$: Subject<void> = new Subject();
+    
     constructor(private httpService: HttpService,
                 private router: Router,
                 private cdr: ChangeDetectorRef) { }
@@ -56,7 +56,6 @@ export class RegistrationComponent implements OnInit, OnDestroy {
             
             if (phone?.indexOf("+") === 0) {
                 phone = phone.substring(1);
-                console.log(phone)
             }
 
             console.log(phone)

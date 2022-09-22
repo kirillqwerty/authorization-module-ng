@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { DataToLogin } from '../types/dataToLogin';
-import { Observable } from 'rxjs';
-import { User } from '../types/user';
-import { DataToRegistrate } from '../types/dataToRegistrate';
+import { DataToLogin } from "../types/dataToLogin";
+import { Observable } from "rxjs";
+import { User } from "../types/user";
+import { DataToRegistrate } from "../types/dataToRegistrate";
 
 @Injectable()
 export class HttpService {
