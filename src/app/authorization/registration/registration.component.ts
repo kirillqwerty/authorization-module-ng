@@ -48,22 +48,15 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     }
 
     public registrate(): void { 
-
-        this.loader = true;
         
         if (this.registrationForm.valid) {
-            let phone = this.registrationForm.value.phoneNumber;
-            
-            if (phone?.indexOf("+") === 0) {
-                phone = phone.substring(1);
-            }
-
-            console.log(phone)
+            this.loader = true;
+            console.log(this.registrationForm);
             const newUser: DataToRegistrate = {
                 email: this.registrationForm.value.email as string,
                 username: this.registrationForm.value.username as string,
                 password: this.registrationForm.value.password as string,
-                phone: phone as string
+                phone: this.registrationForm.value.phoneNumber as string
             }
 
             this.httpService.registrate(newUser)
@@ -83,11 +76,8 @@ export class RegistrationComponent implements OnInit, OnDestroy {
                     }
                 }) 
         }
-        
-        
+        else this.registrationForm.markAllAsTouched();
     }
-
-
 
     public ngOnDestroy(): void {
         this.unsubscribe$.next();

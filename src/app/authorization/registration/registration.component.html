@@ -108,16 +108,16 @@
                         !registrationForm.get('phoneNumber')?.errors?.['maxlength'] &&
                         registrationForm.get('phoneNumber')?.errors?.['phoneError'] &&
                         registrationForm.get('phoneNumber')?.touched">
-                        Numbers only and '+'
+                        Numbers only
             </span>
 
         </div>  
     </form>
     
     <div class="button-wrapper">
-        <button  (click)="registrate()" [disabled]="registrationForm.invalid">Go</button>
+        <button  (click)="registrate()" [ngClass]="{disabled_button: registrationForm.invalid}">Go</button>
     </div>      
-</div>
+</div>  
 
 <div *ngIf="loader" class="loader"></div>
 

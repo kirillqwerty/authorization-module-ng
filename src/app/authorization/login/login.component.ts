@@ -14,8 +14,8 @@ import { DataToLogin } from "../types/dataToLogin";
 export class LoginComponent implements OnDestroy {
 
     public loginForm = new FormGroup({
-        username: new FormControl("", [Validators.required, Validators.minLength(6), Validators.maxLength(64)]),
-        password: new FormControl("", [Validators.required, Validators.minLength(8), Validators.maxLength(64)])
+        username: new FormControl("", [Validators.required]),
+        password: new FormControl("", [Validators.required])
     })
 
     public loader = false;
@@ -34,7 +34,6 @@ export class LoginComponent implements OnDestroy {
     public signIn(): void {
         if (this.loginForm.valid) {
             this.loader = true;
-        }
         const user: DataToLogin = {
             username: this.loginForm.value.username as string,
             password: this.loginForm.value.password as string
@@ -59,6 +58,7 @@ export class LoginComponent implements OnDestroy {
                     this.cdr.detectChanges();
                 }
             })
+        } else this.loginForm.markAllAsTouched()
     }
 
     public ngOnDestroy(): void {

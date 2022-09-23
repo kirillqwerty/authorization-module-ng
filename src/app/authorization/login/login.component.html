@@ -13,17 +13,6 @@
                         loginForm.get('username')?.touched">
                         Field required
             </span>
-
-            <span *ngIf="loginForm.get('username')?.errors?.['minlength'] &&
-                        loginForm.get('username')?.touched">
-                        Min length - 6
-            </span>
-
-            <span *ngIf="loginForm.get('username')?.errors?.['maxlength'] &&
-                        loginForm.get('username')?.touched">
-                        Max length - 64
-            </span>
-
         </div>
             
         <div class="input-wrapper">
@@ -35,22 +24,12 @@
                         Field required
             </span>
 
-            <span *ngIf="loginForm.get('password')?.errors?.['minlength'] &&
-                        loginForm.get('password')?.touched">
-                        Min length - 8
-            </span>
-
-            <span *ngIf="loginForm.get('password')?.errors?.['maxlength'] &&
-                        loginForm.get('password')?.touched">
-                        Max length - 64
-            </span>
-
         </div>
             
     </form>
     
     <div class="button-wrapper">
-        <button (click)="signIn()">Go</button>
+        <button (click)="signIn()" [ngClass]="{disabled_button: loginForm.invalid}">Go</button>
         <a class="reg-btn" (click)="goToRegistration()">
             I dont have an account
         </a>

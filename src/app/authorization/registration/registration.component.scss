@@ -10,11 +10,7 @@
 
 .form-wrapper{
     height: 70%;
-    // flex-direction: column;
-    // justify-content: left;
-    // justify-content: space-evenly;
 }
-
 .button-wrapper{
     height: 15%;
     background: grey;
@@ -39,27 +35,27 @@ input{
 }
 
 .plus-sign{
-    height: 60%;
+    padding-bottom: 1px;
+    padding-left: 10px;
+    font-size: 40px;
+    height: 72%;
     border: 10px solid black;
     border-right: none;
-    font-size: 50px;
 }
 
 .phonenumber{
-    width: 85%;
-    height: 58%;
+    width: 84%;
+    height: 70%;
     border-left: none;
 }
 
 .input-wrapper{
     width: 100%;
-    justify-content:left;
-
+    height: 20%;
 }
 
 span{
     font-size: 16px;
-    // position: absolute;
     color: red;
     margin-left: 10px;
     align-self:baseline;
