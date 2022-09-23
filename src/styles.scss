@@ -8,20 +8,23 @@
     } 
 
 body{
+    height: 100vh;
+    width: 100vw;
+    min-width: 360px;
+    min-height: 640px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-family: 'Pixeloid Font';
-    // overflow: hidden;
     background: grey;
     user-select: none;  
 }
 .window-wrapper {
-    margin: 0 auto;
-    right: 35%;
     text-align: center;
-    margin-top: 10%;
-    min-width: 150px;
-    min-height: 200px;
-    height: 400px;
-    width: 480px;
+    min-width: 360px;
+    min-height: 640px;
+    height: 99%;
+    width: 99%;
     border: 10px solid black;
     border-top-left-radius: 2px;
     border-top-right-radius: 2px;    
@@ -30,6 +33,7 @@ body{
     justify-content: center;
     flex-direction: column;
 }
+
 .label-wrapper {
     background: grey;
     font-size: 45px;
@@ -135,9 +139,13 @@ button:active{
   }
 
 .loader {
+    // align-self: center;
   position: absolute;
   top: 40%;
-  left: 50%;
+//   left: 37vmin;
+  left: 40%;
+//   margin: 0 auto;
+//   margin-bottom: 50%;
   --n:3;    
   --s:30px;
   --g:5px; 
@@ -145,7 +153,6 @@ button:active{
   width:calc(var(--n)*(var(--s) + var(--g)) - var(--g));
   height:30px;
   padding:var(--g);
-  margin:5px auto;
   border:10px solid;
   background:
     repeating-linear-gradient(90deg,

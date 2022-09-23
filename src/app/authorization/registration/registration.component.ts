@@ -4,7 +4,7 @@ import { Router } from "@angular/router";
 import { Subject, takeUntil } from "rxjs";
 import { HttpService } from "../services/http.service";
 import { DataToRegistrate } from "../types/dataToRegistrate";
-import { passwordValidator, phoneValidator } from "../validators/forms-validator";
+import { mainPasswordMatch, passwordMatch, passwordValidator, phoneValidator } from "../validators/forms-validator";
 
 
 @Component({
@@ -20,11 +20,11 @@ export class RegistrationComponent implements OnInit, OnDestroy {
         email: new FormControl(<string|null> null, [Validators.required, Validators.email]),
         username: new FormControl(<string|null> null, [Validators.required, Validators.minLength(6), Validators.maxLength(64)]),
         password: new FormControl(<string|null> null, [Validators.required, Validators.minLength(8), Validators.maxLength(64), passwordValidator]),
-        passwordConf: new FormControl(<string|null> null, [Validators.required]),
+        passwordConf: new FormControl(<string|null> null, [Validators.required, passwordMatch]),
         phoneNumber: new FormControl(<string|null> null, [Validators.minLength(9), Validators.maxLength(15), phoneValidator])
     })
 
-    public differentPasswords = false;
+    // public differentPasswords = false;
 
     public loader = false;
 
@@ -38,12 +38,15 @@ export class RegistrationComponent implements OnInit, OnDestroy {
         this.registrationForm.valueChanges  
             .pipe(takeUntil(this.unsubscribe$))
             .subscribe(() => {
-                console.log(this.registrationForm.value.password)
-                if (this.registrationForm.value.password === this.registrationForm.value.passwordConf) {
-                    this.differentPasswords = false;
-                } else {
-                    this.differentPasswords = true;
-                }
+                console.log("password");
+                console.log(this.registrationForm.value.password);
+                console.log("conf password");
+                console.log(this.registrationForm.value.passwordConf);
+                // if (this.registrationForm.value.password === this.registrationForm.value.passwordConf) {
+                //     this.differentPasswords = false;
+                // } else {
+                //     this.differentPasswords = true;
+                // }
             })
     }
 

@@ -1,6 +1,6 @@
 .window-wrapper{
-    margin-top: 2%;
-    height: 872px;
+    // margin-top: 2%;
+    // height: 600px;
 }
 
 .label-wrapper{
@@ -9,7 +9,7 @@
 }
 
 .form-wrapper{
-    height: 70%;
+    // height: 70%;
 }
 .button-wrapper{
     height: 15%;
@@ -32,19 +32,21 @@ input{
     justify-content: center;
     align-items: center;
     width: 100%;
+    margin-bottom: 2px;
 }
 
 .plus-sign{
     padding-bottom: 1px;
-    padding-left: 10px;
-    font-size: 40px;
-    height: 72%;
+    padding-left: 7px;
+    font-size: 1.84em;
+        // height: 72%;
     border: 10px solid black;
     border-right: none;
 }
 
 .phonenumber{
-    width: 84%;
+    // outline: 1px;
+    width: 86%;
     height: 70%;
     border-left: none;
 }

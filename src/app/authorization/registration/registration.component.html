@@ -66,6 +66,10 @@
                         registrationForm.get('password')?.touched">
                         At least 1 number and 1 capital letter
             </span>
+
+            <!-- <span *ngIf="registrationForm.get('password')?.errors?.['passwordMatchError']">
+                Passwords do not match 
+            </span> -->
         </div>
             
         <div class="input-wrapper">
@@ -74,8 +78,9 @@
 
             <span class="passwordConf-error-message" *ngIf="
                 !registrationForm.get('passwordConf')?.errors?.['required'] &&
-                differentPasswords &&
-                registrationForm.get('passwordConf')?.touched">
+                registrationForm.get('passwordConf')?.touched &&
+                registrationForm.get('passwordConf')?.errors?.['passwordMatchError']"
+                >
                 Passwords do not match            
             </span>
 
