@@ -4,7 +4,7 @@ import { Router } from "@angular/router";
 import { Subject, takeUntil } from "rxjs";
 import { HttpService } from "../services/http.service";
 import { DataToRegistrate } from "../types/dataToRegistrate";
-import { mainPasswordMatch, passwordMatch, passwordValidator, phoneValidator } from "../validators/forms-validator";
+import { passwordMatch, passwordValidator, phoneValidator } from "../validators/forms-validator";
 
 
 @Component({
@@ -38,15 +38,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
         this.registrationForm.valueChanges  
             .pipe(takeUntil(this.unsubscribe$))
             .subscribe(() => {
-                console.log("password");
-                console.log(this.registrationForm.value.password);
-                console.log("conf password");
-                console.log(this.registrationForm.value.passwordConf);
-                // if (this.registrationForm.value.password === this.registrationForm.value.passwordConf) {
-                //     this.differentPasswords = false;
-                // } else {
-                //     this.differentPasswords = true;
-                // }
+                console.log(this.registrationForm)
             })
     }
 
@@ -80,7 +72,14 @@ export class RegistrationComponent implements OnInit, OnDestroy {
                 }) 
         }
         else this.registrationForm.markAllAsTouched();
+        this.cdr.detectChanges();
     }
+
+    //TEST 
+    public onBlurEvent(event: any): void{
+        console.log(event.target.value);
+    }
+
 
     public ngOnDestroy(): void {
         this.unsubscribe$.next();

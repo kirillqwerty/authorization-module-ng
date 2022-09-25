@@ -25,10 +25,10 @@ export function passwordMatch(control: AbstractControl): { [key: string]: boolea
 }
 
 
-export function mainPasswordMatch(control: AbstractControl): { [key: string]: boolean } | null{
-    if (control.value === control.parent?.get("passwordConf")?.value) {
-        return null;
-    }
+// export function mainPasswordMatch(control: AbstractControl): { [key: string]: boolean } | null{
+//     if (control.value === control.parent?.get("passwordConf")?.value) {
+//         return null;
+//     }
 
-    return {"passwordMatchError": true};
-}
+//     return {"passwordMatchError": true};
+// }

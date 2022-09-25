@@ -8,13 +8,14 @@ import { HttpClientModule } from "@angular/common/http";
 import { HttpService } from "./services/http.service";
 import { AuthService } from "./services/auth.service";
 import { AuthorizedPageComponent } from "./authorized-page/authorized-page.component";
-
+import { ErrWrapperComponent } from "./err-wrapper/err-wrapper.component";
 
 @NgModule({
   declarations: [
     LoginComponent,
     RegistrationComponent,
-    AuthorizedPageComponent
+    AuthorizedPageComponent,
+    ErrWrapperComponent
   ],
   imports: [
     AuthorizationRoutingModule,

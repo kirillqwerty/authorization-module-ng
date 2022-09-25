@@ -4,119 +4,54 @@
     <form class="form-wrapper" >
 
         <div class="input-wrapper">
-            <label>Email</label>
-            <input type="text" formControlName="email">
+
+            <app-err-wrapper [control]="registrationForm" path="email">
+                <label>Email</label>
+                <input type="text" formControlName="email" (blur)="onBlurEvent($event)">
+            </app-err-wrapper>
             
-            <span *ngIf="registrationForm.get('email')?.errors?.['required'] &&
-                        registrationForm.get('email')?.touched">
-                        Field required
-            </span>
-
-            <span *ngIf="registrationForm.get('email')?.errors?.['email'] &&
-                        registrationForm.get('email')?.touched">
-                        Incorrect email
-            </span>
 
         </div>
 
         <div class="input-wrapper">
-            <label>Username</label>
-            <input type="text" formControlName="username">
 
-            <span *ngIf="registrationForm.get('username')?.errors?.['required'] &&
-                        registrationForm.get('username')?.touched">
-                        Field required
-            </span>
-
-            <span *ngIf="registrationForm.get('username')?.errors?.['minlength'] &&
-                        registrationForm.get('username')?.touched">
-                        Min length - 6
-            </span>
-
-            <span *ngIf="registrationForm.get('username')?.errors?.['maxlength'] &&
-                        registrationForm.get('username')?.touched">
-                        Max length - 64
-            </span>
+            <app-err-wrapper [control]="registrationForm" path="username">
+                <label>Username</label>
+                <input type="text" formControlName="username">
+            </app-err-wrapper>
 
         </div>
+
         <div class="input-wrapper">
-            <label>Password</label>
-            <input type="password" formControlName="password">
 
-            <span *ngIf="registrationForm.get('password')?.errors?.['required'] &&
-                        registrationForm.get('password')?.touched">
-                        Field required
-            </span>
-
-            <span *ngIf="registrationForm.get('password')?.errors?.['minlength'] &&
-                        registrationForm.get('password')?.touched">
-                        Min length - 8
-            </span>
-
-            <span *ngIf="registrationForm.get('password')?.errors?.['maxlength'] &&
-                        registrationForm.get('password')?.touched">
-                        Max length - 64
-            </span>
-
-            <span *ngIf="
-                        !registrationForm.get('password')?.errors?.['required'] &&
-                        !registrationForm.get('password')?.errors?.['minlength'] &&
-                        !registrationForm.get('password')?.errors?.['maxlength'] &&
-                        registrationForm.get('password')?.errors?.['passwordError'] &&
-                        registrationForm.get('password')?.touched">
-                        At least 1 number and 1 capital letter
-            </span>
-
-            <!-- <span *ngIf="registrationForm.get('password')?.errors?.['passwordMatchError']">
-                Passwords do not match 
-            </span> -->
+            <app-err-wrapper [control]="registrationForm" path="password">
+                <label>Password</label>
+                <input type="password" formControlName="password">
+            </app-err-wrapper>
+            
         </div>
             
         <div class="input-wrapper">
-            <label>Password again</label>
-            <input type="password" formControlName="passwordConf">
 
-            <span class="passwordConf-error-message" *ngIf="
-                !registrationForm.get('passwordConf')?.errors?.['required'] &&
-                registrationForm.get('passwordConf')?.touched &&
-                registrationForm.get('passwordConf')?.errors?.['passwordMatchError']"
-                >
-                Passwords do not match            
-            </span>
-
-            <span *ngIf="registrationForm.get('passwordConf')?.errors?.['required'] &&
-                        registrationForm.get('passwordConf')?.touched">
-                        Field required
-            </span>
+            <app-err-wrapper [control]="registrationForm" path="passwordConf">
+                <label>Password again</label>
+                <input type="password" formControlName="passwordConf">
+            </app-err-wrapper>     
 
         </div>
+
         <div class="input-wrapper">
-            <label>Phone Number</label>
 
-            <div class="input-phonenumber-wrapper">
-                <div class="plus-sign">+</div>
-                <input type="text" class="phonenumber" formControlName="phoneNumber">
-            </div>
-
-
-            <span *ngIf="registrationForm.get('phoneNumber')?.errors?.['minlength'] &&
-                        registrationForm.get('phoneNumber')?.touched">
-                        Min length - 9
-            </span>
-
-            <span *ngIf="registrationForm.get('phoneNumber')?.errors?.['maxlength'] &&
-                        registrationForm.get('phoneNumber')?.touched">
-                        Max length - 15
-            </span>
-
-            <span *ngIf="!registrationForm.get('phoneNumber')?.errors?.['minlength'] &&
-                        !registrationForm.get('phoneNumber')?.errors?.['maxlength'] &&
-                        registrationForm.get('phoneNumber')?.errors?.['phoneError'] &&
-                        registrationForm.get('phoneNumber')?.touched">
-                        Numbers only
-            </span>
+            <app-err-wrapper [control]="registrationForm" path="phoneNumber">
+                <label>Phone Number</label>
+                <div class="input-phonenumber-wrapper">
+                    <input class="plus-sign" value="+" readonly>
+                    <input type="text" class="phonenumber" formControlName="phoneNumber">
+                </div>
+            </app-err-wrapper>
 
         </div>  
+
     </form>
     
     <div class="button-wrapper">
