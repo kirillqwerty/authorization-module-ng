@@ -1,10 +1,13 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from "@angular/core";
-import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnDestroy, OnInit } from "@angular/core";
+import { FormGroup, FormControl, Validators, AbstractControl, ValidationErrors } from "@angular/forms";
 import { Router } from "@angular/router";
 import { Subject, takeUntil } from "rxjs";
+import { MyValidationErrors } from "../injectionTokenSettings/injectionTokenValue";
+import { FORMS_VALIDATION_ERRORS } from "../injectionTokenSettings/valdation-errors-injection-token";
 import { HttpService } from "../services/http.service";
 import { DataToRegistrate } from "../types/dataToRegistrate";
 import { passwordMatch, passwordValidator, phoneValidator } from "../validators/forms-validator";
+import { getFormCustomValidationErrors } from "../validators/get-form-validation-errors";
 
 
 @Component({
@@ -30,20 +33,22 @@ export class RegistrationComponent implements OnInit, OnDestroy {
 
     private readonly unsubscribe$: Subject<void> = new Subject();
     
-    constructor(private httpService: HttpService,
+    constructor(@Inject(FORMS_VALIDATION_ERRORS) private _myErrors: MyValidationErrors,
+                private httpService: HttpService,
                 private router: Router,
                 private cdr: ChangeDetectorRef) { }
 
     public ngOnInit(): void {
-        this.registrationForm.valueChanges  
-            .pipe(takeUntil(this.unsubscribe$))
-            .subscribe(() => {
-                console.log(this.registrationForm)
-            })
-    }
 
+        this._myErrors.value = getFormCustomValidationErrors(this.registrationForm.controls);
+        this.registrationForm.valueChanges  
+                .pipe(takeUntil(this.unsubscribe$))
+                .subscribe(() => {
+                    console.log(this.registrationForm)
+                })
+        }
     public registrate(): void { 
-        
+            
         if (this.registrationForm.valid) {
             this.loader = true;
             console.log(this.registrationForm);
@@ -74,12 +79,6 @@ export class RegistrationComponent implements OnInit, OnDestroy {
         else this.registrationForm.markAllAsTouched();
         this.cdr.detectChanges();
     }
-
-    //TEST 
-    public onBlurEvent(event: any): void{
-        console.log(event.target.value);
-    }
-
 
     public ngOnDestroy(): void {
         this.unsubscribe$.next();

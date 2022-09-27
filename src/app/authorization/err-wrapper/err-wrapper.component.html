@@ -1,9 +1,2 @@
 <ng-content></ng-content>
-<span *ngIf="emptyInput">Field required</span>
-<span *ngIf="minLength">Min length - {{minLength}}</span>
-<span *ngIf="maxLength">Max length - {{maxLength}}</span>
-<span *ngIf="incorrectEmail">Incorrect email</span>
-<span *ngIf="incorrectPassword">At least 1 number and 1 capital letter</span>
-<span *ngIf="passwordUnmatch">Passwords do not match</span>
-<span *ngIf="incorrectPhoneNumber" >Numbers only </span>
-
+<span *ngIf="this.controlInvalid()">{{this.errorText}}</span>

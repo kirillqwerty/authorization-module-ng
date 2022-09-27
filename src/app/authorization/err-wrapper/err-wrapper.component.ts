@@ -1,7 +1,9 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy} from "@angular/core";
-import { FormArray, FormControl, FormGroup, Validators } from "@angular/forms";
+import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, Inject} from "@angular/core";
+import { FormArray, FormControl, FormGroup } from "@angular/forms";
 import { Subject, takeUntil } from "rxjs";
-import { passwordMatch, passwordValidator, phoneValidator } from "../validators/forms-validator";
+import { MyValidationErrors } from "../injectionTokenSettings/injectionTokenValue";
+import { FORMS_VALIDATION_ERRORS } from "../injectionTokenSettings/valdation-errors-injection-token";
+import { defaultErrors } from "../validators/defaultErrors";
 
 @Component({
     selector: "app-err-wrapper",
@@ -12,8 +14,14 @@ import { passwordMatch, passwordValidator, phoneValidator } from "../validators/
 export class ErrWrapperComponent implements OnInit, OnDestroy {
 
     @Input() public control?: FormControl|FormArray|FormGroup;
-
+    
     @Input() public path?: string;
+
+    public myControl?: FormControl;
+
+    public errors: string[] = [];
+
+    public errorText = "";
 
     public emptyInput = false;
 
@@ -31,147 +39,127 @@ export class ErrWrapperComponent implements OnInit, OnDestroy {
 
     private readonly unsubscribe$: Subject<void> = new Subject();
 
-    constructor(private cdr: ChangeDetectorRef) { }
+    constructor(@Inject(FORMS_VALIDATION_ERRORS) private _myErrors: MyValidationErrors,
+        private cdr: ChangeDetectorRef) { }
  
     // private get myControl(): any {
-    //     return this.control?.get(`${this.path}`);
+    //     return this.myControl;
     // }
 
     public ngOnInit(): void {
+
+        if (this.control instanceof FormGroup && this.path) {
+            this.myControl = this.control.get(`${this.path}`) as FormControl;
+        } else if (this.control instanceof FormControl) {
+            this.myControl = this.control;
+        }
+
+        this.errors = this._myErrors.value.concat(defaultErrors);
+        console.log(this.errors);
+        
+    
         // this.control?.valueChanges
         //     .pipe(takeUntil(this.unsubscribe$))
         //     .subscribe(() => {
-        //         this.checkLength();    
-
-        //         if (this.control?.get(`${this.path}`)?.hasValidator(Validators.required)) {
-        //             this.checkRequired();
-        //         }
-                            
-        //         if (this.control?.get(`${this.path}`)?.hasValidator(Validators.required)) {
-        //             this.checkEmail();
-        //         }
-
-        //         if (this.control?.get(`${this.path}`)?.hasValidator(passwordValidator)) {
-        //             this.checkPassword();
-        //             this.checkLength();    
-        //         }
-
-        //         if (this.control?.get(`${this.path}`)?.hasValidator(passwordMatch)) {
-        //             this.checkPasswordMatch();
-        //         }
-                
-        //         if (this.control?.get(`${this.path}`)?.hasValidator(phoneValidator)) {
-        //             this.checkPhoneNumber();
-        //         }
-
         //         this.checkLength();
         //         this.checkRequired();
         //         this.checkEmail();
         //         this.checkPassword();
         //         this.checkPasswordMatch();
         //         this.checkPhoneNumber();
-        //         console.log(this.control?.get(`${this.path}`));
-
         //     })
-        this.control?.get(`${this.path}`)?.valueChanges
+
+        this.myControl?.valueChanges
             .pipe(takeUntil(this.unsubscribe$))
-            .subscribe(() =>{
-                this.checkLength();    
-                if (this.control?.get(`${this.path}`)?.hasValidator(Validators.required)) {
-                    this.checkRequired();
+            .subscribe(() => {
+                for (const error of this.errors) {
+                    if (this.myControl?.errors?.[`${error}`] &&
+                    this.myControl?.touched) {
+                        console.log(this.path + " " + error);
+                        this.errorText = this.path + " " + error;
+                    }
+                    // else this.errorText = "";
                 }
-                            
-                if (this.control?.get(`${this.path}`)?.hasValidator(Validators.required)) {
-                    this.checkEmail();
-                }
-
-                if (this.control?.get(`${this.path}`)?.hasValidator(passwordValidator)) {
-                    this.checkPassword();
-                    this.checkLength();    
-                }
-
-                if (this.control?.get(`${this.path}`)?.hasValidator(passwordMatch)) {
-                    this.checkPasswordMatch();
-                }
-                
-                if (this.control?.get(`${this.path}`)?.hasValidator(phoneValidator)) {
-                    this.checkPhoneNumber();
-                }
+                this.cdr.detectChanges()
             })
     }
-
-    public checkRequired(): void {
-        if (this.control?.get(`${this.path}`)?.errors?.["required"] &&
-        this.control?.get(`${this.path}`)?.touched) {
-            this.emptyInput = true;
-        } else {
-            this.emptyInput = false;
-        }
-        this.cdr.detectChanges();
+    
+    public controlInvalid(): boolean{
+        return this.myControl?.invalid as boolean;
     }
 
-    public checkLength(): void {
-        if (this.control?.get(`${this.path}`)?.errors?.["minlength"] &&
-            this.control?.get(`${this.path}`)?.touched) {
-            this.minLength = this.control?.get(`${this.path}`)?.errors?.["minlength"].requiredLength;
-        } else {
-            this.minLength = null;
-        }
+    // public checkRequired(): void {
+    //     if (this.myControl?.errors?.["required"] &&
+    //     this.myControl?.touched) {
+    //         this.emptyInput = true;
+    //     } else {
+    //         this.emptyInput = false;
+    //     }
+    //     this.cdr.detectChanges();
+    // }
 
-        if (this.control?.get(`${this.path}`)?.errors?.["maxlength"] &&
-            this.control?.get(`${this.path}`)?.touched){  
-            this.maxLength = this.control?.get(`${this.path}`)?.errors?.["maxlength"].requiredLength;
-        } else {
-            this.maxLength = null;
-        }
-        this.cdr.detectChanges();
-    }
+    // public checkLength(): void {
+    //     if (this.myControl?.errors?.["minlength"] &&
+    //         this.myControl?.touched) {
+    //         this.minLength = this.myControl?.errors?.["minlength"].requiredLength;
+    //     } else {
+    //         this.minLength = null;
+    //     }
 
-    public checkEmail(): void {
-        if (this.control?.get(`${this.path}`)?.errors?.["email"] &&
-            this.control?.get(`${this.path}`)?.touched) {
-            this.incorrectEmail = true;
-        } else {
-            this.incorrectEmail = false;
-        }
-        this.cdr.detectChanges();
-    }
+    //     if (this.myControl?.errors?.["maxlength"] &&
+    //         this.myControl?.touched){  
+    //         this.maxLength = this.myControl?.errors?.["maxlength"].requiredLength;
+    //     } else {
+    //         this.maxLength = null;
+    //     }
+    //     this.cdr.detectChanges();
+    // }
 
-    public checkPassword(): void {
-        if (!this.control?.get(`${this.path}`)?.errors?.["required"] &&
-            !this.control?.get(`${this.path}`)?.errors?.["minlength"] &&
-            !this.control?.get(`${this.path}`)?.errors?.["maxlength"] &&
-            this.control?.get(`${this.path}`)?.errors?.["passwordError"] &&
-            this.control?.get(`${this.path}`)?.touched) {
-            this.incorrectPassword = true;
-        } else {
-            this.incorrectPassword = false;
-        }
-        this.cdr.detectChanges();
-    }
+    // public checkEmail(): void {
+    //     if (this.myControl?.errors?.["email"] &&
+    //         this.myControl?.touched) {
+    //         this.incorrectEmail = true;
+    //     } else {
+    //         this.incorrectEmail = false;
+    //     }
+    //     this.cdr.detectChanges();
+    // }
 
-    public checkPasswordMatch(): void {
-        if (!this.control?.get(`${this.path}`)?.errors?.["required"] &&
-            this.control?.get(`${this.path}`)?.touched &&
-            this.control?.get(`${this.path}`)?.errors?.["passwordMatchError"]) {
-            this.passwordUnmatch = true;
-        } else {
-            this.passwordUnmatch = false;
-        }
-        this.cdr.detectChanges();
-    }
+    // public checkPassword(): void {
+    //     if (!this.myControl?.errors?.["required"] &&
+    //         !this.myControl?.errors?.["minlength"] &&
+    //         !this.myControl?.errors?.["maxlength"] &&
+    //         this.myControl?.errors?.["passwordError"] &&
+    //         this.myControl?.touched) {
+    //         this.incorrectPassword = true;
+    //     } else {
+    //         this.incorrectPassword = false;
+    //     }
+    //     this.cdr.detectChanges();
+    // }
 
-    public checkPhoneNumber(): void {
-        if (!this.control?.get(`${this.path}`)?.errors?.["minlength"] &&
-            !this.control?.get(`${this.path}`)?.errors?.["maxlength"] &&
-            this.control?.get(`${this.path}`)?.errors?.["phoneError"] &&
-            this.control?.get(`${this.path}`)?.touched) {
-            this.incorrectPhoneNumber = true;
-        } else {
-            this.incorrectPhoneNumber = false;
-        }
-        this.cdr.detectChanges();
-    }
+    // public checkPasswordMatch(): void {
+    //     if (!this.myControl?.errors?.["required"] &&
+    //         this.myControl?.touched &&
+    //         this.myControl?.errors?.["passwordMatchError"]) {
+    //         this.passwordUnmatch = true;
+    //     } else {
+    //         this.passwordUnmatch = false;
+    //     }
+    //     this.cdr.detectChanges();
+    // }
+
+    // public checkPhoneNumber(): void {
+    //     if (!this.myControl?.errors?.["minlength"] &&
+    //         !this.myControl?.errors?.["maxlength"] &&
+    //         this.myControl?.errors?.["phoneError"] &&
+    //         this.myControl?.touched) {
+    //         this.incorrectPhoneNumber = true;
+    //     } else {
+    //         this.incorrectPhoneNumber = false;
+    //     }
+    //     this.cdr.detectChanges();
+    // }
 
     public ngOnDestroy(): void {
         this.unsubscribe$.next();

@@ -15,7 +15,7 @@ export function phoneValidator(control: AbstractControl): { [key: string]: boole
 
     return {"phoneError": true};
 }
-
+    
 export function passwordMatch(control: AbstractControl): { [key: string]: boolean } | null{
     if (control.value === control.parent?.get("password")?.value) {
         return null;
@@ -23,12 +23,3 @@ export function passwordMatch(control: AbstractControl): { [key: string]: boolea
 
     return {"passwordMatchError": true};
 }
-
-
-// export function mainPasswordMatch(control: AbstractControl): { [key: string]: boolean } | null{
-//     if (control.value === control.parent?.get("passwordConf")?.value) {
-//         return null;
-//     }
-
-//     return {"passwordMatchError": true};
-// }
