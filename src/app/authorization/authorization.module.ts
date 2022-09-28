@@ -9,8 +9,6 @@ import { HttpService } from "./services/http.service";
 import { AuthService } from "./services/auth.service";
 import { AuthorizedPageComponent } from "./authorized-page/authorized-page.component";
 import { ErrWrapperComponent } from "./err-wrapper/err-wrapper.component";
-import { FORMS_VALIDATION_ERRORS } from "./injectionTokenSettings/valdation-errors-injection-token";
-import { MyValidationErrors } from "./injectionTokenSettings/injectionTokenValue";
 
 @NgModule({
   declarations: [
@@ -28,10 +26,11 @@ import { MyValidationErrors } from "./injectionTokenSettings/injectionTokenValue
   providers: [
     HttpService,
     AuthService,
-    {
-      provide: FORMS_VALIDATION_ERRORS,
-      useClass: MyValidationErrors,
-    },
+    // {
+    //   provide: FORMS_VALIDATION_ERRORS,
+    //   useFactory: getFormCustomValidationErrors,
+    //   deps: [AbstractControl]
+    // },
   ]
 })
 export class AuthorizationModule { }

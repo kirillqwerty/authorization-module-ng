@@ -9,7 +9,7 @@ export function passwordValidator(control: AbstractControl): { [key: string]: bo
 }
 
 export function phoneValidator(control: AbstractControl): { [key: string]: boolean } | null{
-    if (/^[0-9]+$/.test(control.value)) {
+    if (/(^[0-9]+$)|(^$)/.test(control.value)) {
         return null
     }
 

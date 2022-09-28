@@ -1,20 +1,25 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnDestroy, OnInit } from "@angular/core";
-import { FormGroup, FormControl, Validators, AbstractControl, ValidationErrors } from "@angular/forms";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from "@angular/core";
+import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { Subject, takeUntil } from "rxjs";
-import { MyValidationErrors } from "../injectionTokenSettings/injectionTokenValue";
-import { FORMS_VALIDATION_ERRORS } from "../injectionTokenSettings/valdation-errors-injection-token";
+import { FORMS_VALIDATION_ERRORS } from "../injectionTokenSettings/errors.token";
 import { HttpService } from "../services/http.service";
 import { DataToRegistrate } from "../types/dataToRegistrate";
 import { passwordMatch, passwordValidator, phoneValidator } from "../validators/forms-validator";
-import { getFormCustomValidationErrors } from "../validators/get-form-validation-errors";
-
 
 @Component({
-  selector: "app-registration",
-  templateUrl: "./registration.component.html",
-  styleUrls: ["./registration.component.scss"],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: "app-registration",
+    templateUrl: "./registration.component.html",
+    styleUrls: ["./registration.component.scss"],
+    providers: [{
+        provide: FORMS_VALIDATION_ERRORS,
+        useValue: {
+            "phoneError": "Incorrect phone number",
+            "passwordError": "At least 1 number and 1 capital letter",
+            "passwordMatchError": "Passwords do not match"
+        }
+    }],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class RegistrationComponent implements OnInit, OnDestroy {
@@ -27,26 +32,23 @@ export class RegistrationComponent implements OnInit, OnDestroy {
         phoneNumber: new FormControl(<string|null> null, [Validators.minLength(9), Validators.maxLength(15), phoneValidator])
     })
 
-    // public differentPasswords = false;
-
     public loader = false;
 
     private readonly unsubscribe$: Subject<void> = new Subject();
     
-    constructor(@Inject(FORMS_VALIDATION_ERRORS) private _myErrors: MyValidationErrors,
+    constructor(
                 private httpService: HttpService,
                 private router: Router,
                 private cdr: ChangeDetectorRef) { }
 
-    public ngOnInit(): void {
-
-        this._myErrors.value = getFormCustomValidationErrors(this.registrationForm.controls);
+    public ngOnInit(): void {  
         this.registrationForm.valueChanges  
                 .pipe(takeUntil(this.unsubscribe$))
                 .subscribe(() => {
                     console.log(this.registrationForm)
                 })
         }
+
     public registrate(): void { 
             
         if (this.registrationForm.valid) {
@@ -68,13 +70,13 @@ export class RegistrationComponent implements OnInit, OnDestroy {
                         this.loader = false;
                         this.cdr.detectChanges()
                     },
-                    
                     error: () => {
                         console.log("error");
                         this.loader = false;
                         this.cdr.detectChanges()
                     }
                 }) 
+                
         }
         else this.registrationForm.markAllAsTouched();
         this.cdr.detectChanges();
