@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, Inject} from "@angular/core";
-import { AbstractControl, FormArray, FormControl, FormGroup } from "@angular/forms";
+import { AbstractControl, FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
 import { Subject, takeUntil } from "rxjs";
 import { FORMS_VALIDATION_ERRORS } from "../injectionTokenSettings/errors.token";
 import { defaultErrors } from "../validators/defaultErrors";
@@ -17,7 +17,7 @@ export class ErrWrapperComponent implements OnInit, OnDestroy {
     
     @Input() public path?: string;
 
-    @Input() public outputByOne = true;
+    @Input() public outputByOne = false;
 
     public myControl?: FormControl|FormGroup;
 
@@ -28,11 +28,10 @@ export class ErrWrapperComponent implements OnInit, OnDestroy {
     private readonly unsubscribe$: Subject<void> = new Subject();
 
     constructor(@Inject(FORMS_VALIDATION_ERRORS) private _myErrors: string[],
-        private cdr: ChangeDetectorRef) { }
+        private cdr: ChangeDetectorRef) {}
 
     public ngOnInit(): void {
 
-        
         if (this.control instanceof FormGroup && this.path) {
             this.myControl = this.control.get(`${this.path}`) as FormControl;
         } else if (this.control instanceof FormControl) {
@@ -40,19 +39,17 @@ export class ErrWrapperComponent implements OnInit, OnDestroy {
         } else if(this.control instanceof FormGroup && !this.path) {
             console.log("Path needed");
         }        
-
+        
         this.errors = [...this._myErrors, ...defaultErrors];
-
         this.myControl?.valueChanges
             .pipe(takeUntil(this.unsubscribe$))
             .subscribe(() => {
                 for (const controlError in this.myControl?.errors) {
+                    console.log(controlError)
                     if(this.outputByOne){
                         this.currentErrorText[0] = getErrorMessage(controlError, this.myControl as AbstractControl);
-                    } else{
-                        if (!this.currentErrorText.includes(getErrorMessage(controlError, this.myControl as AbstractControl))) {
-                            this.currentErrorText.push(getErrorMessage(controlError, this.myControl as AbstractControl));
-                        }    
+                    } else if (!this.currentErrorText.includes(getErrorMessage(controlError, this.myControl as AbstractControl))) {
+                        this.currentErrorText.push(getErrorMessage(controlError, this.myControl as AbstractControl));  
                     }
                 }
                 this.cdr.detectChanges();

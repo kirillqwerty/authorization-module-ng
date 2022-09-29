@@ -1,11 +1,12 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from "@angular/core";
-import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { FormGroup, FormControl, Validators, AbstractControl, FormBuilder } from "@angular/forms";
 import { Router } from "@angular/router";
 import { Subject, takeUntil } from "rxjs";
 import { FORMS_VALIDATION_ERRORS } from "../injectionTokenSettings/errors.token";
 import { HttpService } from "../services/http.service";
 import { DataToRegistrate } from "../types/dataToRegistrate";
 import { passwordMatch, passwordValidator, phoneValidator } from "../validators/forms-validator";
+import { getFormValidationErrors } from "../validators/get-form-validation-errors";
 
 @Component({
     selector: "app-registration",
@@ -32,10 +33,18 @@ export class RegistrationComponent implements OnInit, OnDestroy {
         phoneNumber: new FormControl(<string|null> null, [Validators.minLength(9), Validators.maxLength(15), phoneValidator]),
     })
 
+    // public fb = new FormBuilder;
+
+    // public registrationForm = this.fb.group({
+    //     "email": ["", Validators.compose([Validators.required, Validators.email])],
+    //     "username": ["", Validators.compose([Validators.required, Validators.minLength(6), Validators.maxLength(64)])],
+    //     "password": ["", Validators.compose([Validators.required, Validators.minLength(8), Validators.maxLength(64), passwordValidator])],
+    //     "passwordConf": ["", Validators.compose([Validators.required, passwordMatch])],
+    //     "phoneNumber": ["", Validators.compose([Validators.minLength(9), Validators.maxLength(15), phoneValidator])],
+    // })
+
     public loader = false;
-
-
-
+    
     private readonly unsubscribe$: Subject<void> = new Subject();
 
     constructor(
@@ -44,10 +53,16 @@ export class RegistrationComponent implements OnInit, OnDestroy {
                 private cdr: ChangeDetectorRef) { }
 
     public ngOnInit(): void {  
+
+        // const val = this.registrationForm.controls["password"]?.validator?.("" as any);
+        // console.log(val);
+
         this.registrationForm.valueChanges  
                 .pipe(takeUntil(this.unsubscribe$))
                 .subscribe(() => {
                     console.log(this.registrationForm.controls);
+                    // console.log(getFormValidationErrors(this.registrationForm.controls))
+
                 })
         }
 
@@ -78,7 +93,6 @@ export class RegistrationComponent implements OnInit, OnDestroy {
                         this.cdr.detectChanges()
                     }
                 }) 
-                
         }
         else {
             this.registrationForm.markAllAsTouched();
