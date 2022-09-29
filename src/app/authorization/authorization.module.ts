@@ -26,11 +26,6 @@ import { ErrWrapperComponent } from "./err-wrapper/err-wrapper.component";
   providers: [
     HttpService,
     AuthService,
-    // {
-    //   provide: FORMS_VALIDATION_ERRORS,
-    //   useFactory: getFormCustomValidationErrors,
-    //   deps: [AbstractControl]
-    // },
   ]
 })
 export class AuthorizationModule { }

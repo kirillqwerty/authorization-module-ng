@@ -13,12 +13,12 @@ import { passwordMatch, passwordValidator, phoneValidator } from "../validators/
     styleUrls: ["./registration.component.scss"],
     providers: [{
         provide: FORMS_VALIDATION_ERRORS,
-        useValue: {
-            "phoneError": "Incorrect phone number",
-            "passwordError": "At least 1 number and 1 capital letter",
-            "passwordMatchError": "Passwords do not match"
-        }
-    }],
+        useValue: [
+            "passwordError",
+            "phoneError",
+            "passwordMatchError",
+        ]   
+    }], 
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
@@ -45,7 +45,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
         this.registrationForm.valueChanges  
                 .pipe(takeUntil(this.unsubscribe$))
                 .subscribe(() => {
-                    console.log(this.registrationForm)
+                    console.log(this.registrationForm.controls);
                 })
         }
 
