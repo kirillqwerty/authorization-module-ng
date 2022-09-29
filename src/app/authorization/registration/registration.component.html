@@ -5,7 +5,7 @@
 
         <div class="input-wrapper">
 
-            <app-err-wrapper [control]="registrationForm" path="email">
+            <app-err-wrapper [control]="registrationForm" path="email" [outputByOne]="true">
                 <label>Email</label>
                 <input type="text" formControlName="email">
             </app-err-wrapper>
@@ -15,7 +15,7 @@
 
         <div class="input-wrapper">
 
-            <app-err-wrapper [control]="registrationForm" path="username">
+            <app-err-wrapper [control]="registrationForm" path="username" [outputByOne]="true">
                 <label>Username</label>
                 <input type="text" formControlName="username">
             </app-err-wrapper>
@@ -24,7 +24,7 @@
 
         <div class="input-wrapper">
 
-            <app-err-wrapper [control]="registrationForm" path="password">
+            <app-err-wrapper [control]="registrationForm" path="password" [outputByOne]="true">
                 <label>Password</label>
                 <input type="password" formControlName="password">
             </app-err-wrapper>
@@ -33,7 +33,7 @@
             
         <div class="input-wrapper">
 
-            <app-err-wrapper [control]="registrationForm" path="passwordConf">
+            <app-err-wrapper [control]="registrationForm" path="passwordConf" [outputByOne]="true">
                 <label>Password again</label>
                 <input type="password" formControlName="passwordConf">
             </app-err-wrapper>     
@@ -42,7 +42,7 @@
 
         <div class="input-wrapper">
 
-            <app-err-wrapper [control]="registrationForm" path="phoneNumber">
+            <app-err-wrapper [control]="registrationForm" path="phoneNumber" [outputByOne]="true">
                 <label>Phone Number</label>
                 <div class="input-phonenumber-wrapper">
                     <input class="plus-sign" value="+" readonly>
@@ -55,8 +55,10 @@
     </form>
     
     <div class="button-wrapper">
-        <button  (click)="registrate()" [ngClass]="{disabled_button: registrationForm.invalid}">Go</button>
-    </div>      
+        <button  (click)="registrate()" 
+                [ngClass]="{disabled_button: registrationForm.invalid}">Go</button>
+    </div>
+              
 </div>  
 
 <div *ngIf="loader" class="loader"></div>

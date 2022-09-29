@@ -17,11 +17,13 @@ export class ErrWrapperComponent implements OnInit, OnDestroy {
     
     @Input() public path?: string;
 
+    @Input() public outputByOne = true;
+
     public myControl?: FormControl|FormGroup;
 
     public errors: string[] = [];
 
-    public currentErrorText = "";
+    public currentErrorText: string[] = [];
 
     private readonly unsubscribe$: Subject<void> = new Subject();
 
@@ -41,14 +43,17 @@ export class ErrWrapperComponent implements OnInit, OnDestroy {
 
         this.errors = [...this._myErrors, ...defaultErrors];
 
-        console.log(this._myErrors);
-        console.log(typeof(this._myErrors));
-        console.log(this.errors);
         this.myControl?.valueChanges
             .pipe(takeUntil(this.unsubscribe$))
             .subscribe(() => {
                 for (const controlError in this.myControl?.errors) {
-                    this.currentErrorText = getErrorMessage(controlError, this.myControl as AbstractControl);
+                    if(this.outputByOne){
+                        this.currentErrorText[0] = getErrorMessage(controlError, this.myControl as AbstractControl);
+                    } else{
+                        if (!this.currentErrorText.includes(getErrorMessage(controlError, this.myControl as AbstractControl))) {
+                            this.currentErrorText.push(getErrorMessage(controlError, this.myControl as AbstractControl));
+                        }    
+                    }
                 }
                 this.cdr.detectChanges();
             })

@@ -29,13 +29,15 @@ export class RegistrationComponent implements OnInit, OnDestroy {
         username: new FormControl(<string|null> null, [Validators.required, Validators.minLength(6), Validators.maxLength(64)]),
         password: new FormControl(<string|null> null, [Validators.required, Validators.minLength(8), Validators.maxLength(64), passwordValidator]),
         passwordConf: new FormControl(<string|null> null, [Validators.required, passwordMatch]),
-        phoneNumber: new FormControl(<string|null> null, [Validators.minLength(9), Validators.maxLength(15), phoneValidator])
+        phoneNumber: new FormControl(<string|null> null, [Validators.minLength(9), Validators.maxLength(15), phoneValidator]),
     })
 
     public loader = false;
 
+
+
     private readonly unsubscribe$: Subject<void> = new Subject();
-    
+
     constructor(
                 private httpService: HttpService,
                 private router: Router,
@@ -78,7 +80,10 @@ export class RegistrationComponent implements OnInit, OnDestroy {
                 }) 
                 
         }
-        else this.registrationForm.markAllAsTouched();
+        else {
+            this.registrationForm.markAllAsTouched();
+        }
+        console.log(this.registrationForm);
         this.cdr.detectChanges();
     }
 

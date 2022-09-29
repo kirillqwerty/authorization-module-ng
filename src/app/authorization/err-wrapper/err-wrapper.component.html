@@ -1,2 +1,7 @@
 <ng-content></ng-content>
-<span *ngIf="controlInvalid()">{{currentErrorText}}</span>
+<span *ngIf="controlInvalid()">
+    <label *ngFor="let error of currentErrorText; let i = index">
+        {{error}}
+        <br>
+    </label>
+</span>
