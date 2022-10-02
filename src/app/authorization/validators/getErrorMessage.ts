@@ -1,29 +1,60 @@
-import { AbstractControl } from "@angular/forms";
+import { ValidationErrors } from "@angular/forms";
 
-export function getErrorMessage(errorName: string, control: AbstractControl): string {
-    switch (errorName) {
-        case "required":
-            return "Field is required";
+export function getErrorMessage(errors: ValidationErrors): string|null {
 
-        case "minlength":
-            return `Minimum length ${control.errors?.["minlength"].requiredLength}`;
+    for (const error in errors) {
 
-        case "maxlength":
-            return `Maximum length ${control.errors?.["maxlength"].requiredLength}`;
+        switch (error) {
 
-        case "email":
-            return "Incorrect, must contain @";
+            case "required":
+                return "Field is required";
 
-        case "passwordError":
-            return "At least 1 number and 1 capital letter";
+            case "minlength":
+                return `Minimum length ${errors?.["minlength"].requiredLength}`;
 
-        case "phoneError":
-            return "Incorrect phone number";
+            case "maxlength":
+                return `Maximum length ${errors?.["maxlength"].requiredLength}`;
 
-        case "passwordMatchError":
-            return "Passwords do not match";
+            case "email":
+                return "Incorrect, must contain @";
 
-        default:
-            return "error";
+            case "passwordError":
+                return "At least 1 number and 1 capital letter";
+
+            case "phoneError":
+                return "Incorrect phone number";
+
+            case "passwordMatchError":
+                return "Passwords do not match";
+
+            default:
+                return null;
+        }
     }
+    return null
 }
+
+
+            // case "{\"required\":true}":
+            //     return "Field is required";
+
+            // case JSON.stringify({"minlength": {"requiredLength": errors?.["minlength"]?.requiredLength,"actualLength": errors?.["minlength"]?.actualLength}}):
+            //     return `Minimum length ${errors?.["minlength"].requiredLength}`;
+
+            // case JSON.stringify({"maxlength": {"requiredLength": errors?.["maxlength"]?.requiredLength,"actualLength": errors?.["maxlength"]?.actualLength}}):
+            //     return `Maximum length ${errors?.["maxlength"].requiredLength}`;
+
+            // case "{\"email\":true}":
+            //     return "Incorrect, must contain @";
+
+            // case "{\"passwordError\":true}":
+            //     return "At least 1 number and 1 capital letter";
+
+            // case "{\"phoneError\":true}":
+            //     return "Incorrect phone number";
+
+            // case "{\"passwordMatchError\":true}":
+            //     return "Passwords do not match";
+
+            // default:
+            //     return null;

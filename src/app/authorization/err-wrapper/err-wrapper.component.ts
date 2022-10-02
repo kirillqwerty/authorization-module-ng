@@ -1,15 +1,14 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, Inject} from "@angular/core";
-import { AbstractControl, FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
+import { Component, OnInit, Input, OnDestroy, Inject} from "@angular/core";
+import { AbstractControl, FormArray, FormControl, FormGroup, ValidationErrors } from "@angular/forms";
 import { Subject, takeUntil } from "rxjs";
+import { errorInfo } from "../injectionTokenSettings/errorInfo";
 import { FORMS_VALIDATION_ERRORS } from "../injectionTokenSettings/errors.token";
 import { defaultErrors } from "../validators/defaultErrors";
-import { getErrorMessage } from "../validators/getErrorMessage";
 
 @Component({
     selector: "app-err-wrapper",
     templateUrl: "./err-wrapper.component.html",
-    styleUrls: ["./err-wrapper.component.scss"],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    styleUrls: ["./err-wrapper.component.scss"]
 })
 export class ErrWrapperComponent implements OnInit, OnDestroy {
 
@@ -21,14 +20,13 @@ export class ErrWrapperComponent implements OnInit, OnDestroy {
 
     public myControl?: FormControl|FormGroup;
 
-    public errors: string[] = [];
+    public errors: errorInfo[] = [];
 
     public currentErrorText: string[] = [];
 
     private readonly unsubscribe$: Subject<void> = new Subject();
 
-    constructor(@Inject(FORMS_VALIDATION_ERRORS) private _myErrors: string[],
-        private cdr: ChangeDetectorRef) {}
+    constructor(@Inject(FORMS_VALIDATION_ERRORS) private _myErrors: errorInfo[]) {}
 
     public ngOnInit(): void {
 
@@ -39,21 +37,23 @@ export class ErrWrapperComponent implements OnInit, OnDestroy {
         } else if(this.control instanceof FormGroup && !this.path) {
             console.log("Path needed");
         }        
-        
+
         this.errors = [...this._myErrors, ...defaultErrors];
+
         this.myControl?.valueChanges
             .pipe(takeUntil(this.unsubscribe$))
             .subscribe(() => {
-                for (const controlError in this.myControl?.errors) {
-                    console.log(controlError)
-                    if(this.outputByOne){
-                        this.currentErrorText[0] = getErrorMessage(controlError, this.myControl as AbstractControl);
-                    } else if (!this.currentErrorText.includes(getErrorMessage(controlError, this.myControl as AbstractControl))) {
-                        this.currentErrorText.push(getErrorMessage(controlError, this.myControl as AbstractControl));  
-                    }
-                }
-                this.cdr.detectChanges();
+                this.setCurrentErrorText();
             })
+
+
+        this.control?.valueChanges
+            .pipe(takeUntil(this.unsubscribe$))
+            .subscribe(() => {
+                if (this.myControl?.touched) {
+                this.setCurrentErrorText();
+                }
+            })    
     }
 
     public controlInvalid(): boolean{
@@ -63,5 +63,16 @@ export class ErrWrapperComponent implements OnInit, OnDestroy {
     public ngOnDestroy(): void {
         this.unsubscribe$.next();
         this.unsubscribe$.complete();
+    }
+
+    private setCurrentErrorText(): void{
+        for (const error in this.myControl?.errors) {
+            if (this.outputByOne){
+                this.currentErrorText[0] = this.errors.find(element => element.errorName === error)?.errorText(this.myControl?.errors as ValidationErrors) as string;
+                break;
+            } else if (!this.currentErrorText.includes(this.errors.find(element => element.errorName === error)?.errorText(this.myControl?.errors as ValidationErrors) as string)){
+                this.currentErrorText.push(this.errors.find(element => element.errorName === error)?.errorText(this.myControl?.errors as ValidationErrors) as string);
+            }
+        }
     }
 }

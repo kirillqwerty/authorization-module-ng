@@ -1,12 +1,12 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from "@angular/core";
-import { FormGroup, FormControl, Validators, AbstractControl, FormBuilder } from "@angular/forms";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy } from "@angular/core";
+import { FormGroup, FormControl, Validators} from "@angular/forms";
 import { Router } from "@angular/router";
 import { Subject, takeUntil } from "rxjs";
 import { FORMS_VALIDATION_ERRORS } from "../injectionTokenSettings/errors.token";
 import { HttpService } from "../services/http.service";
 import { DataToRegistrate } from "../types/dataToRegistrate";
 import { passwordMatch, passwordValidator, phoneValidator } from "../validators/forms-validator";
-import { getFormValidationErrors } from "../validators/get-form-validation-errors";
+import { getErrorMessage } from "../validators/getErrorMessage";
 
 @Component({
     selector: "app-registration",
@@ -15,15 +15,26 @@ import { getFormValidationErrors } from "../validators/get-form-validation-error
     providers: [{
         provide: FORMS_VALIDATION_ERRORS,
         useValue: [
-            "passwordError",
-            "phoneError",
-            "passwordMatchError",
+            { 
+                errorName: "passwordError", 
+                errorText: (): string => `${getErrorMessage({"passwordError": true})}`
+            },
+
+            {
+                errorName: "phoneError", 
+                errorText: (): string => `${getErrorMessage({"phoneError": true})}`
+            },
+
+            {
+                errorName: "passwordMatchError", 
+                errorText: (): string => `${getErrorMessage({"passwordMatchError": true})}`
+            }
         ]   
     }], 
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class RegistrationComponent implements OnInit, OnDestroy {
+export class RegistrationComponent implements OnDestroy {
 
     public registrationForm = new FormGroup({
         email: new FormControl(<string|null> null, [Validators.required, Validators.email]),
@@ -31,17 +42,8 @@ export class RegistrationComponent implements OnInit, OnDestroy {
         password: new FormControl(<string|null> null, [Validators.required, Validators.minLength(8), Validators.maxLength(64), passwordValidator]),
         passwordConf: new FormControl(<string|null> null, [Validators.required, passwordMatch]),
         phoneNumber: new FormControl(<string|null> null, [Validators.minLength(9), Validators.maxLength(15), phoneValidator]),
+        submitButton: new FormControl(<boolean> false)
     })
-
-    // public fb = new FormBuilder;
-
-    // public registrationForm = this.fb.group({
-    //     "email": ["", Validators.compose([Validators.required, Validators.email])],
-    //     "username": ["", Validators.compose([Validators.required, Validators.minLength(6), Validators.maxLength(64)])],
-    //     "password": ["", Validators.compose([Validators.required, Validators.minLength(8), Validators.maxLength(64), passwordValidator])],
-    //     "passwordConf": ["", Validators.compose([Validators.required, passwordMatch])],
-    //     "phoneNumber": ["", Validators.compose([Validators.minLength(9), Validators.maxLength(15), phoneValidator])],
-    // })
 
     public loader = false;
     
@@ -51,20 +53,6 @@ export class RegistrationComponent implements OnInit, OnDestroy {
                 private httpService: HttpService,
                 private router: Router,
                 private cdr: ChangeDetectorRef) { }
-
-    public ngOnInit(): void {  
-
-        // const val = this.registrationForm.controls["password"]?.validator?.("" as any);
-        // console.log(val);
-
-        this.registrationForm.valueChanges  
-                .pipe(takeUntil(this.unsubscribe$))
-                .subscribe(() => {
-                    console.log(this.registrationForm.controls);
-                    // console.log(getFormValidationErrors(this.registrationForm.controls))
-
-                })
-        }
 
     public registrate(): void { 
             
@@ -96,8 +84,9 @@ export class RegistrationComponent implements OnInit, OnDestroy {
         }
         else {
             this.registrationForm.markAllAsTouched();
+            this.registrationForm.patchValue({submitButton: true});
+            console.log("{submitButton: true}");
         }
-        console.log(this.registrationForm);
         this.cdr.detectChanges();
     }
 
