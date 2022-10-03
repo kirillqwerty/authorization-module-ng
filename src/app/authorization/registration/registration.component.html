@@ -22,24 +22,26 @@
 
         </div>
 
+
         <div class="input-wrapper">
 
             <app-err-wrapper [control]="registrationForm" path="password" [outputByOne]="true">
                 <label>Password</label>
                 <input type="password" formControlName="password">
             </app-err-wrapper>
-            
+                
         </div>
-            
+                
         <div class="input-wrapper">
 
-            <app-err-wrapper [control]="registrationForm" path="passwordConf" [outputByOne]="true">
+            <app-err-wrapper [control]="registrationForm" [outputByOne]="true">
                 <label>Password again</label>
                 <input type="password" formControlName="passwordConf">
             </app-err-wrapper>     
 
         </div>
 
+        
         <div class="input-wrapper">
 
             <app-err-wrapper [control]="registrationForm" path="phoneNumber" [outputByOne]="true">

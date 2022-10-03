@@ -17,7 +17,7 @@ export class ErrWrapperComponent implements OnInit {
 
     @Input() public outputByOne = false;
 
-    public myControl?: FormControl|FormGroup;
+    public myControl?: FormControl|FormGroup|FormArray|AbstractControl;
 
     public errors: errorInfo = {};
 
@@ -42,18 +42,20 @@ export class ErrWrapperComponent implements OnInit {
                 }
             }
         }
+        console.log(this.myControl)
+        console.log(this.myControl?.errors);
+
         return currentErrorText;
     }
     
     public ngOnInit(): void {
 
-        if (this.control instanceof FormGroup && this.path) {
-            this.myControl = this.control.get(`${this.path}`) as FormControl;
-        } else if (this.control instanceof FormControl) {
-            this.myControl = this.control;
-        } else if(this.control instanceof FormGroup && !this.path) {
-            console.log("Path needed");
-        }        
+        if (this.control instanceof FormGroup || this.control instanceof FormArray) {
+            if (this.path) {
+                this.myControl = this.control.get(`${this.path}`) as AbstractControl;
+            } 
+            else this.myControl = this.control;
+        }       
 
         Object.assign(this.errors, this._myErrors, defaultErrors);
         console.log(this.errors);

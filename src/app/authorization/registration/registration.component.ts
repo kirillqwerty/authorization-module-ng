@@ -33,10 +33,11 @@ export class RegistrationComponent implements OnDestroy {
         email: new FormControl(<string|null> null, [Validators.required, Validators.email]),
         username: new FormControl(<string|null> null, [Validators.required, Validators.minLength(6), Validators.maxLength(64)]),
         password: new FormControl(<string|null> null, [Validators.required, Validators.minLength(8), Validators.maxLength(64), passwordValidator]),
-        passwordConf: new FormControl(<string|null> null, [Validators.required, passwordMatch]),
+        passwordConf: new FormControl(<string|null> null, [Validators.required]),
         phoneNumber: new FormControl(<string|null> null, [Validators.minLength(9), Validators.maxLength(15), phoneValidator]),
-        submitButton: new FormControl(<boolean> false)
-    })
+        submitButton: new FormControl(<boolean> false),
+        }, passwordMatch)
+
 
     public loader = false;
     
@@ -48,7 +49,7 @@ export class RegistrationComponent implements OnDestroy {
                 private cdr: ChangeDetectorRef) { }
 
     public registrate(): void { 
-            
+
         if (this.registrationForm.valid) {
             this.loader = true;
             console.log(this.registrationForm);
