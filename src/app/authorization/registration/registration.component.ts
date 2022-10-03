@@ -6,7 +6,6 @@ import { FORMS_VALIDATION_ERRORS } from "../injectionTokenSettings/errors.token"
 import { HttpService } from "../services/http.service";
 import { DataToRegistrate } from "../types/dataToRegistrate";
 import { passwordMatch, passwordValidator, phoneValidator } from "../validators/forms-validator";
-import { getErrorMessage } from "../validators/getErrorMessage";
 
 @Component({
     selector: "app-registration",
@@ -14,22 +13,16 @@ import { getErrorMessage } from "../validators/getErrorMessage";
     styleUrls: ["./registration.component.scss"],
     providers: [{
         provide: FORMS_VALIDATION_ERRORS,
-        useValue: [
+        
+        useValue: 
             { 
-                errorName: "passwordError", 
-                errorText: (): string => `${getErrorMessage({"passwordError": true})}`
-            },
+                "passwordError": (): string => "At least 1 number and 1 capital letter",
+           
+                "phoneError": (): string => "Incorrect phone number",
+            
+                "passwordMatchError": (): string => "Passwords do not match"
+            }   
 
-            {
-                errorName: "phoneError", 
-                errorText: (): string => `${getErrorMessage({"phoneError": true})}`
-            },
-
-            {
-                errorName: "passwordMatchError", 
-                errorText: (): string => `${getErrorMessage({"passwordMatchError": true})}`
-            }
-        ]   
     }], 
     changeDetection: ChangeDetectionStrategy.OnPush
 })

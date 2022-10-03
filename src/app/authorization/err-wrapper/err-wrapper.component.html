@@ -1,6 +1,6 @@
 <ng-content></ng-content>
 <div *ngIf="controlInvalid()">
-    <label *ngFor="let error of currentErrorText; let i = index">
+    <label *ngFor="let error of setCurrentErrorText(); let i = index">
         {{error}}
         <br>
     </label>

@@ -1,6 +1,3 @@
 import { ValidationErrors } from "@angular/forms";
 
-export interface errorInfo{
-    errorName: string,
-    errorText: (error: ValidationErrors) => string
-}
+export type errorInfo = Record<string, (error: ValidationErrors) => string>

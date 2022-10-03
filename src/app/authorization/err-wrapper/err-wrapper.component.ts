@@ -1,6 +1,5 @@
-import { Component, OnInit, Input, OnDestroy, Inject} from "@angular/core";
-import { AbstractControl, FormArray, FormControl, FormGroup, ValidationErrors } from "@angular/forms";
-import { Subject, takeUntil } from "rxjs";
+import { Component, OnInit, Input, Inject} from "@angular/core";
+import { AbstractControl, FormArray, FormControl, FormGroup } from "@angular/forms";
 import { errorInfo } from "../injectionTokenSettings/errorInfo";
 import { FORMS_VALIDATION_ERRORS } from "../injectionTokenSettings/errors.token";
 import { defaultErrors } from "../validators/defaultErrors";
@@ -10,7 +9,7 @@ import { defaultErrors } from "../validators/defaultErrors";
     templateUrl: "./err-wrapper.component.html",
     styleUrls: ["./err-wrapper.component.scss"]
 })
-export class ErrWrapperComponent implements OnInit, OnDestroy {
+export class ErrWrapperComponent implements OnInit {
 
     @Input() public control?: AbstractControl|FormArray|FormGroup|null;
     
@@ -20,13 +19,9 @@ export class ErrWrapperComponent implements OnInit, OnDestroy {
 
     public myControl?: FormControl|FormGroup;
 
-    public errors: errorInfo[] = [];
+    public errors: errorInfo = {};
 
-    public currentErrorText: string[] = [];
-
-    private readonly unsubscribe$: Subject<void> = new Subject();
-
-    constructor(@Inject(FORMS_VALIDATION_ERRORS) private _myErrors: errorInfo[]) {}
+    constructor(@Inject(FORMS_VALIDATION_ERRORS) private _myErrors: errorInfo) {}
 
     public ngOnInit(): void {
 
@@ -38,41 +33,28 @@ export class ErrWrapperComponent implements OnInit, OnDestroy {
             console.log("Path needed");
         }        
 
-        this.errors = [...this._myErrors, ...defaultErrors];
-
-        this.myControl?.valueChanges
-            .pipe(takeUntil(this.unsubscribe$))
-            .subscribe(() => {
-                this.setCurrentErrorText();
-            })
-
-
-        this.control?.valueChanges
-            .pipe(takeUntil(this.unsubscribe$))
-            .subscribe(() => {
-                if (this.myControl?.touched) {
-                this.setCurrentErrorText();
-                }
-            })    
+        Object.assign(this.errors, this._myErrors, defaultErrors);
+        console.log(this.errors);
     }
 
     public controlInvalid(): boolean{
         return this.myControl?.invalid as boolean;
     }
 
-    public ngOnDestroy(): void {
-        this.unsubscribe$.next();
-        this.unsubscribe$.complete();
-    }
+    public setCurrentErrorText(): string[] {
 
-    private setCurrentErrorText(): void{
-        for (const error in this.myControl?.errors) {
-            if (this.outputByOne){
-                this.currentErrorText[0] = this.errors.find(element => element.errorName === error)?.errorText(this.myControl?.errors as ValidationErrors) as string;
-                break;
-            } else if (!this.currentErrorText.includes(this.errors.find(element => element.errorName === error)?.errorText(this.myControl?.errors as ValidationErrors) as string)){
-                this.currentErrorText.push(this.errors.find(element => element.errorName === error)?.errorText(this.myControl?.errors as ValidationErrors) as string);
+        const currentErrorText: string[] = [];
+
+        if (this.myControl?.touched) {
+            for (const error in this.myControl.errors) {
+                if (this.outputByOne){
+                    currentErrorText[0] = this.errors[`${error}`](this.myControl.errors);
+                    break;
+                } else if (!currentErrorText.includes(this.errors[`${error}`](this.myControl.errors))){
+                    currentErrorText.push(this.errors[`${error}`](this.myControl.errors));
+                }
             }
         }
+        return currentErrorText;
     }
 }
