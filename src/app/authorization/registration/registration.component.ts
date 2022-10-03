@@ -71,7 +71,7 @@ export class RegistrationComponent implements OnDestroy {
                     error: () => {
                         console.log("error");
                         this.loader = false;
-                        this.cdr.detectChanges()
+                        this.cdr.detectChanges();
                     }
                 }) 
         }

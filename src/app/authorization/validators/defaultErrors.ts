@@ -9,7 +9,9 @@ export const defaultErrors: errorInfo =
 
         "maxlength": (err: ValidationErrors): string => `Maximum length ${err?.["maxlength"].requiredLength}`,
  
-        "email": (): string => "Incorrect, must contain @"
+        "email": (): string => "Incorrect, must contain @",
+        
+        "": (): string => "Incorrect input"
     }
 
 

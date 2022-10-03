@@ -23,6 +23,28 @@ export class ErrWrapperComponent implements OnInit {
 
     constructor(@Inject(FORMS_VALIDATION_ERRORS) private _myErrors: errorInfo) {}
 
+    public get currentErrorText(): string[] {
+
+        const currentErrorText: string[] = [];
+
+        if (this.myControl?.touched) {
+            for (const error in this.myControl.errors) {
+                if (this.outputByOne){
+                    if (this.errors[`${error}`]) {
+                        currentErrorText[0] = this.errors[`${error}`](this.myControl.errors);
+                    } else currentErrorText[0] = "Incorrect value";
+                    break;
+                } else if (!currentErrorText.includes(this.errors[`${error}`](this.myControl.errors))){
+                    if (this.errors[`${error}`]) {
+                        currentErrorText.push(this.errors[`${error}`](this.myControl.errors));
+                    } else currentErrorText.push("Incorrect value");
+                    currentErrorText.push(this.errors[`${error}`](this.myControl.errors));
+                }
+            }
+        }
+        return currentErrorText;
+    }
+    
     public ngOnInit(): void {
 
         if (this.control instanceof FormGroup && this.path) {
@@ -35,26 +57,5 @@ export class ErrWrapperComponent implements OnInit {
 
         Object.assign(this.errors, this._myErrors, defaultErrors);
         console.log(this.errors);
-    }
-
-    public controlInvalid(): boolean{
-        return this.myControl?.invalid as boolean;
-    }
-
-    public setCurrentErrorText(): string[] {
-
-        const currentErrorText: string[] = [];
-
-        if (this.myControl?.touched) {
-            for (const error in this.myControl.errors) {
-                if (this.outputByOne){
-                    currentErrorText[0] = this.errors[`${error}`](this.myControl.errors);
-                    break;
-                } else if (!currentErrorText.includes(this.errors[`${error}`](this.myControl.errors))){
-                    currentErrorText.push(this.errors[`${error}`](this.myControl.errors));
-                }
-            }
-        }
-        return currentErrorText;
     }
 }
