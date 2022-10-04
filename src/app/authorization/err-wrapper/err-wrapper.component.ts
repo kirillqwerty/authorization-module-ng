@@ -52,7 +52,7 @@ export class ErrWrapperComponent implements OnInit {
         if (this.control instanceof FormGroup || this.control instanceof FormArray) {
             if (this.path) {
                 this.myControl = this.control.get(`${this.path}`) as AbstractControl;
-            } 
+            }   
             else this.myControl = this.control;
         }       
 
