@@ -1,4 +1,4 @@
-import { AbstractControl, FormGroup } from "@angular/forms";
+import { AbstractControl} from "@angular/forms";
 
 export function passwordValidator(control: AbstractControl): { [key: string]: boolean } | null{
     if (/(?=.*[0-9])(?=.*[A-Z])/.test(control.value)) {
@@ -16,12 +16,16 @@ export function phoneValidator(control: AbstractControl): { [key: string]: boole
     return {"phoneError": true};
 }
     
-export function passwordMatch(group: AbstractControl): { [key: string]: boolean } | null{
-    if (group.get("passwordConf")?.value === group.get("password")?.value) {
-        return null;
+export function passwordConfValidators(group: AbstractControl): { [key: string]: boolean } | null{
+    if (group.get("passwordConf")?.touched && group.get("passwordConf")?.value !== group.get("password")?.value) {
+        return {"passwordMatchError": true};
     }
 
-    return {"passwordMatchError": true};
+    if(group.get("passwordConf")?.value === ""){
+        return {"required": true};
+    }
+
+    return null;
 }
 
 

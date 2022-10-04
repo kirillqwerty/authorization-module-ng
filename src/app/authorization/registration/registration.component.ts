@@ -5,7 +5,7 @@ import { Subject, takeUntil } from "rxjs";
 import { FORMS_VALIDATION_ERRORS } from "../injectionTokenSettings/errors.token";
 import { HttpService } from "../services/http.service";
 import { DataToRegistrate } from "../types/dataToRegistrate";
-import { passwordMatch, passwordValidator, phoneValidator } from "../validators/forms-validator";
+import { passwordConfValidators, passwordValidator, phoneValidator } from "../validators/forms-validator";
 
 @Component({
     selector: "app-registration",
@@ -33,10 +33,10 @@ export class RegistrationComponent implements OnDestroy {
         email: new FormControl(<string|null> null, [Validators.required, Validators.email]),
         username: new FormControl(<string|null> null, [Validators.required, Validators.minLength(6), Validators.maxLength(64)]),
         password: new FormControl(<string|null> null, [Validators.required, Validators.minLength(8), Validators.maxLength(64), passwordValidator]),
-        passwordConf: new FormControl(<string|null> null, [Validators.required]),
+        passwordConf: new FormControl(<string|null> null),
         phoneNumber: new FormControl(<string|null> null, [Validators.minLength(9), Validators.maxLength(15), phoneValidator]),
         submitButton: new FormControl(<boolean> false),
-        }, passwordMatch)
+        }, passwordConfValidators)
 
 
     public loader = false;
