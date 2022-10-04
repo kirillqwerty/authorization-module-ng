@@ -34,7 +34,7 @@ export class RegistrationComponent implements OnDestroy {
         username: new FormControl(<string|null> null, [Validators.required, Validators.minLength(6), Validators.maxLength(64)]),
         password: new FormControl(<string|null> null, [Validators.required, Validators.minLength(8), Validators.maxLength(64), passwordValidator]),
         passwordConf: new FormControl(<string|null> null, [Validators.required]),
-        phoneNumber: new FormControl(<string|null> null, [Validators.minLength(9), Validators.maxLength(15), phoneValidator]),
+        phoneNumber: new FormControl(<string|null> "", [Validators.minLength(9), Validators.maxLength(15), phoneValidator]),
         submitButton: new FormControl(<boolean> false),
         }, passwordConfValidators)
 
