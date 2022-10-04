@@ -38,7 +38,6 @@ export class ErrWrapperComponent implements OnInit {
                     if (this.errors[`${error}`]) {
                         currentErrorText.push(this.errors[`${error}`](this.myControl.errors));
                     } else currentErrorText.push("Incorrect value");
-                    currentErrorText.push(this.errors[`${error}`](this.myControl.errors));
                 }
             }
         }
