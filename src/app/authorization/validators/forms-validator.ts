@@ -17,12 +17,8 @@ export function phoneValidator(control: AbstractControl): { [key: string]: boole
 }
     
 export function passwordConfValidators(group: AbstractControl): { [key: string]: boolean } | null{
-    if (group.get("passwordConf")?.touched && group.get("passwordConf")?.value !== group.get("password")?.value) {
+    if (group.get("passwordConf")?.touched && group.get("passwordConf")?.value && group.get("passwordConf")?.value !== group.get("password")?.value) {
         return {"passwordMatchError": true};
-    }
-
-    if(group.get("passwordConf")?.value === ""){
-        return {"required": true};
     }
 
     return null;
