@@ -9,7 +9,7 @@ export function passwordValidator(control: AbstractControl): { [key: string]: bo
 }
 
 export function phoneValidator(control: AbstractControl): { [key: string]: boolean } | null{
-    if (/(^[0-9]+$)|(^$)/.test(control.value)) {
+    if (/(^[0-9]+$)||(^\s*$)/.test(control.value)) {
         return null
     }
 
@@ -27,11 +27,3 @@ export function passwordConfValidators(group: AbstractControl): { [key: string]:
 
     return null;
 }
-
-
-
-// export function passwordMatchAfterChange(group: FormGroup): { [key: string]: boolean } | null {
-//       return (!group.dirty || !group.touched) ||
-//               group.value.password === group.value.passwordConf ?
-//                 null : { "passwordMatchAfterChangeError": true };
-//   }

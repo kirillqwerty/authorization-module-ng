@@ -35,8 +35,10 @@
         <div class="input-wrapper">
 
             <app-err-wrapper [control]="registrationForm" [outputByOne]="true">
-                <label>Password again</label>
-                <input type="password" formControlName="passwordConf">
+                <app-err-wrapper [control]="registrationForm" path="passwordConf" [outputByOne]="true">
+                    <label>Password again</label>
+                    <input type="password" formControlName="passwordConf">
+                </app-err-wrapper>  
             </app-err-wrapper>     
 
         </div>

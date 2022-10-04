@@ -33,7 +33,7 @@ export class RegistrationComponent implements OnDestroy {
         email: new FormControl(<string|null> null, [Validators.required, Validators.email]),
         username: new FormControl(<string|null> null, [Validators.required, Validators.minLength(6), Validators.maxLength(64)]),
         password: new FormControl(<string|null> null, [Validators.required, Validators.minLength(8), Validators.maxLength(64), passwordValidator]),
-        passwordConf: new FormControl(<string|null> null),
+        passwordConf: new FormControl(<string|null> null, [Validators.required]),
         phoneNumber: new FormControl(<string|null> null, [Validators.minLength(9), Validators.maxLength(15), phoneValidator]),
         submitButton: new FormControl(<boolean> false),
         }, passwordConfValidators)
@@ -77,7 +77,10 @@ export class RegistrationComponent implements OnDestroy {
                 }) 
         }
         else {
-            this.registrationForm.markAllAsTouched();
+            this.registrationForm.get("email")?.markAsTouched();
+            this.registrationForm.get("username")?.markAsTouched();
+            this.registrationForm.get("password")?.markAsTouched();
+            this.registrationForm.get("passwordConf")?.markAsTouched();
             this.registrationForm.patchValue({submitButton: true});
             console.log("{submitButton: true}");
         }
