@@ -1,4 +1,13 @@
 # LoginModuleNg
+  Feature module with retro design and my [component-validator](https://github.com/kirillqwerty/authorization-module-ng/tree/main/src/app/authorization/err-wrapper).
+
+## Login
+  ![image](https://user-images.githubusercontent.com/79408397/195553032-692eb6b8-2247-4424-8e24-c09af687c474.png)
+
+## Registration
+  ![registration module](https://user-images.githubusercontent.com/79408397/195553803-97ff57c6-31b7-4f0d-9026-f4a709a39f2b.png)
+
+[Component-validator](https://github.com/kirillqwerty/authorization-module-ng/tree/main/src/app/authorization/err-wrapper) represents a component that wraps the input field, and as a result, validation errors will be drawn under it. It takes a control as inputs (formControl, formGroup or formArray), optionally it can take the path where the control will be located (if formgroup/array is passed).
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.0.
 
